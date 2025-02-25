@@ -1,0 +1,13 @@
+{
+    "id": "green",
+    "name": "Viridis",
+    "author": [ "spoofy","zan" ],
+    "description": "Balatro if it was peak.",
+    "prefix": "vrdis",
+    "main_file": "viridis.lua",
+    "badge_colour": "00ff00",
+    "version": "1.0.0",
+    "dependencies": [
+        "Steamodded (>=1.0.0~ALPHA-1225a)"
+    ]
+}
