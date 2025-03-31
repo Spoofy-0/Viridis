@@ -10,6 +10,10 @@ SMODS.Sound({key = 'meow', path = 'meow.ogg'})
 -- Leaves
 local leaf_suit = SMODS.Suit {
     key = 'Leaves',
+	loc_txt = {
+		singular = "Leaf",
+		plural = "Leaves"
+	},
     card_key = 'leaf',
     hc_atlas = 'hc_cards',
     lc_atlas = 'lc_cards',
@@ -506,9 +510,8 @@ SMODS.Joker { --Zan
 	loc_txt = {
 		name = "Zan",
 		text = {
-			"This Joker gains {C:chips}+1{}",
-			"Chip for each iteration",
-			"of {C:vrds_leaf}Viridis {C:attention}Zan{}",
+			"This Joker gains {C:chips}+1{} Chip",
+			"for each iteration of {C:vrds_leaf}Viridis{} {C:attention}Zan{}",
 			"has tested",
 			"{C:inactive}(Currently{C:chips} +#1#{C:inactive} Chips)",
 			"{C:inactive}(Huge thanks to Nevernamed{}",
@@ -520,7 +523,7 @@ SMODS.Joker { --Zan
 	cost = 9,
 	atlas = 'Jokers',
 	pos = {x = 10, y = 0},
-	config = {extra = {chips = 135}},
+	config = {extra = {chips = 137}},
 	loc_vars = function(self, info_queue, card)
         return {
             vars = { card.ability.extra.chips}
@@ -529,7 +532,7 @@ SMODS.Joker { --Zan
 	calculate = function(self,card,context)
 		if context.joker_main then
 			return {
-				chips = card.ability.extra.chips,
+				chip_mod = card.ability.extra.chips,
 				message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
 			}
 		end
