@@ -156,26 +156,27 @@ SMODS.Joker { --yraG
 	loc_txt = {
 		name = "yraG",
 		text = {
-			"Played {C:attention}6s{} give {C:mult}+#1#{} Mult",
-			"when scored"
+			"Played {C:attention}6s{} give {C:chips}+#2#{} Chips",
+			"and {C:mult}+#1#{} Mult when scored"
 		}
 	},
 	discovered = false,
-    config = { extra = {mult = 6}},
+    config = { extra = {mult = 6, chips = 16}},
 	blueprint_compat = true,
 	rarity = 1,
 	atlas = "Jokers",
 	pos = {x = 0, y = 0},
 	cost = 6,
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.mult } }
+		return { vars = { card.ability.extra.mult, card.ability.extra.chips } }
 	end,
 	calculate = function(self, card, context)
 		if context.individual and context.cardarea == G.play then
 			if context.other_card:get_id() == 6 then
 				return {
 					juice_card = card, --im not sure if this is necessary but im not bothered to check
-					mult = card.ability.extra.mult
+					mult = card.ability.extra.mult,
+					chips = card.ability.extra.chips
 				}
 			end
 		end
@@ -528,7 +529,7 @@ SMODS.Joker { --Zan
 	calculate = function(self,card,context)
 		if context.joker_main then
 			return {
-				chips_mod = card.ability.extra.chips,
+				chips = card.ability.extra.chips,
 				message = localize { type = 'variable', key = 'a_chips', vars = { card.ability.extra.chips } }
 			}
 		end
