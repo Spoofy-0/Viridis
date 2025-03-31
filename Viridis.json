@@ -1,13 +1,13 @@
 {
-    "id": "green",
+    "id": "viridis",
     "name": "Viridis",
-    "author": [ "spoofy","zan" ],
-    "description": "Balatro if it was peak.",
-    "prefix": "vrdis",
+    "author": [ "spoofy","zan", "Balatro Discord"],
+    "description": "Goofy mod we made for an inside joke",
+    "prefix": "vrds",
     "main_file": "viridis.lua",
     "badge_colour": "00ff00",
     "version": "1.0.0",
     "dependencies": [
-        "Steamodded (>=1.0.0~ALPHA-1225a)"
+        "Steamodded (>=1.0.0~ALPHA-1428c)"
     ]
 }
