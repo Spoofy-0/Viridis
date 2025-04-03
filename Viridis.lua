@@ -8,7 +8,7 @@ SMODS.Atlas { key = 'Enhancements', path = 'Enhancements.png', px = 71, py = 95 
 SMODS.Sound({key = 'meow', path = 'meow.ogg'})
 
 -- Leaves
-local leaf_suit = SMODS.Suit {
+SMODS.Suit {
     key = 'Leaves',
 	loc_txt = {
 		singular = "Leaf",
@@ -23,7 +23,11 @@ local leaf_suit = SMODS.Suit {
     ui_pos = { x = 0, y = 0 },
     hc_colour = HEX('B9FF81'),
     lc_colour = HEX('98CD6E'),
-	in_pool = false,
+	in_pool = function(self, args)
+        if args and args.initial_deck then
+            return false
+        end
+    end
 }
 
 -- Tarots
@@ -39,7 +43,7 @@ SMODS.Consumable{ --Nature
 		}
 	},
 	discovered = false,
-    config = {max_highlighted = 3, suit_conv = leaf_suit.key},
+    config = {max_highlighted = 3, suit_conv = 'vrds_Leaves'},
     atlas = 'Tarot',
     pos = { x = 0, y = 0 },
     loc_vars = function(self)
@@ -47,7 +51,7 @@ SMODS.Consumable{ --Nature
             vars = {
                 self.config.max_highlighted,
                 localize(self.config.suit_conv, 'suits_plural'),
-        	    colours = { G.C.SUITS[self.config.suit_conv] },
+				colours = {G.C.SUITS[vrds_Leaves]},
             },
         }
     end
@@ -117,7 +121,7 @@ SMODS.Joker { --Gary
 		name = "Gary",
 		text = {
 			"All played {C:attention}4s{} turn into",
-			"{C:attention}Moss{} Cards and {C:vrds_leaf}Leaf{}",
+			"{C:attention}Moss{} Cards and {V:1}Leaf{}",
 			"suit when scored"
 		}
 	},
@@ -127,6 +131,13 @@ SMODS.Joker { --Gary
 	atlas = "Jokers",
 	pos = {x = 6, y = 0},
 	cost = 8,
+	loc_vars = function(self, info_queue, card)
+		return {
+			vars = {
+				colours = {G.C.SUITS[vrds_Leaves]}
+			},
+		}
+	end,
 	calculate = function(self, card, context)
 		if context.before and not context.blueprint then
 			local fours = {}
@@ -165,7 +176,7 @@ SMODS.Joker { --yraG
 		}
 	},
 	discovered = false,
-    config = { extra = {mult = 6, chips = 16}},
+    config = { extra = {mult = 6, chips = 6}},
 	blueprint_compat = true,
 	rarity = 1,
 	atlas = "Jokers",
@@ -226,7 +237,7 @@ SMODS.Joker { --Counting
 	end
 }
 
-SMODS.Joker { --GOlden Gary
+SMODS.Joker { --Golden Gary
 	key = 'gold_gary',
 	loc_txt = {
 		name = 'Golden Gary',
@@ -330,7 +341,7 @@ SMODS.Joker { --Tennis Ball
 	loc_txt = {
 		name = 'Tennis Ball',
 		text = {
-			"Earn {C:money}$#1# in #2# round#<s>2#,",
+			"Earn {C:money}$#1# in #2# rounds,",
 			"{C:red,E:2}self destructs{}",
 		}
 	},
@@ -343,7 +354,7 @@ SMODS.Joker { --Tennis Ball
 	eternal_compat = false,
 	config = {extra = {money = 44, rounds_remaining = 4}},
 	loc_vars = function(self, info_queue, card)
-		return { vars = { card.ability.extra.money, card.ability.extra.round_remaining } }
+		return { vars = { card.ability.extra.money, card.ability.extra.rounds_remaining } }
 	end,
 	calculate = function(self, card, context)
 		if
@@ -483,7 +494,7 @@ SMODS.Joker { --Envious Joker
 		name = "Envious Joker",
 		text = {
 			"Played cards with",
-			"{C:vrds_leaf}Leaf{} suit give",
+			"{V:1}Leaf{} suit give",
 			"{C:mult}+#1#{} Mult when scored"
 		}
 	},
@@ -491,7 +502,7 @@ SMODS.Joker { --Envious Joker
     config = {
         extra = {
             s_mult = 4,
-            suit = leaf_suit.key
+            suit = 'vrds_Leaves'
         },
     },
 	discovered = false,
@@ -500,7 +511,11 @@ SMODS.Joker { --Envious Joker
     cost = 5,
     loc_vars = function(self, info_queue, card)
         return {
-            vars = { card.ability.extra.s_mult}
+            vars = { 
+				card.ability.extra.s_mult,
+				colours = {G.C.SUITS[vrds_Leaves]}
+			},
+			
         }
     end
 }
@@ -511,7 +526,7 @@ SMODS.Joker { --Zan
 		name = "Zan",
 		text = {
 			"This Joker gains {C:chips}+1{} Chip",
-			"for each iteration of {C:vrds_leaf}Viridis{} {C:attention}Zan{}",
+			"for each iteration of {C:vrds_Leaves}Viridis{} {C:attention}Zan{}",
 			"has tested",
 			"{C:inactive}(Currently{C:chips} +#1#{C:inactive} Chips)",
 			"{C:inactive}(Huge thanks to Nevernamed{}",
@@ -523,7 +538,7 @@ SMODS.Joker { --Zan
 	cost = 9,
 	atlas = 'Jokers',
 	pos = {x = 10, y = 0},
-	config = {extra = {chips = 137}},
+	config = {extra = {chips = 141}},
 	loc_vars = function(self, info_queue, card)
         return {
             vars = { card.ability.extra.chips}
